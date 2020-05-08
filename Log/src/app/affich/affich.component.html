@@ -1,0 +1,93 @@
+<br>
+<br>
+<!DOCTYPE html>
+<html>
+  <style>
+.cMonTableauCollapse3 {
+      width:400px;
+  border-collapse: collapse;
+  border: 1px solid #758de5;
+}
+.cMonTableauCollapse3 th{
+    text-align: center;
+    /*background-color:#0080ff;*/
+    /*color: white;*/
+  }
+
+.cMonTableauCollapse3 th, .cMonTableauCollapse3 td{
+  border: 1px solid #a5b6f1;
+  font-size: x-small;
+  font-weight: normal;
+}
+.btn-space {
+    margin-right: 15px;
+}
+    </style>
+<!--<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td{
+  padding: 5px;
+  text-align: center;
+}
+</style>
+</head> -->
+<body>
+<div class="parent">
+<div class="div1">
+<h1>{{data}}</h1>
+<!--<input type="text" id="amount" value="1"> -->
+<br>
+<!--<button (click)="dataFilter()" type="submit">search</button> -->
+
+  <button (click)="dataFilter()" type="button" class="btn btn-primary btn-space">Search</button>
+  <button (click)="goBack()" type="button" class="btn btn-primary btn-space">Back</button>
+
+<br>
+<br>
+<table class="cMonTableauCollapse3">
+    <tr>
+        <th *ngFor="let item of (colInfo | async)">
+            <form name="AddForm" [formGroup]="this.myForm">
+                <div *ngIf="item.type=='datetime';then content else other_content"></div>
+                <ng-template #content>
+                    <select formControlName="{{item.name}}Sign" type="float: left;">
+                      <option></option>
+                      <option>></option>
+                      <option>{{"<"}}</option>
+                    </select>
+                    <input type="datetime-local" id="{{'flt_' + item.name}}" formControlName="{{item.name}}" placeholder="{{item.name}}" size="8" required>                            
+                </ng-template>
+                <ng-template #other_content><input #other_content type="text" id="{{'flt_' + item.name}}" formControlName="{{item.name}}" placeholder="{{item.name}}" size="8" required></ng-template>
+            </form>
+        </th>
+    </tr>
+  <thead class="users">
+    <tr>
+      <th *ngFor="let item of receive">{{item}}</th>
+    </tr>
+  </thead>
+  <tbody> 
+    <tr *ngFor="let data of receivevalue">
+        <td *ngFor="let item of receive">{{data[item]}}</td>
+    </tr>
+  </tbody>
+  <!---<tbody *ngIf="!isValid"> 
+    <tr *ngFor="let data of receivevalue">
+        <td *ngFor="let item of receive">{{data[item]}}</td>
+    </tr>
+  </tbody> -->
+</table>
+</div>
+</div>
+<br>
+<br>
+</body>
+</html>
+<br>
+<br>
+
+

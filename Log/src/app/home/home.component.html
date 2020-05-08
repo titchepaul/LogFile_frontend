@@ -1,0 +1,68 @@
+<br>
+<br>
+<!DOCTYPE html>
+<html>
+  <style>
+    .cMonTableauCollapse3 {
+          width:400px;
+      border-collapse: collapse;
+      border: 1px solid #758de5;
+    }
+    .cMonTableauCollapse3 th{
+        text-align: center;
+        /*background-color:#0080ff;*/
+        /*color: white;*/
+      }
+    
+    .cMonTableauCollapse3 th, .cMonTableauCollapse3 td{
+      border: 1px solid #a5b6f1;
+      font-size: x-small;
+      font-weight: normal;
+    }
+ </style>
+<body>
+<div class="parent">
+  <div  class="div1">
+  <table class="cMonTableauCollapse3">
+    <thead class="users">
+      <tr>
+        <th scope="col">DataTable</th>
+        <th scope="col">Explore it !!</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dt of nametable">
+        <td>{{dt}}</td>
+        <td>
+           <button class="mon" (click)="redirect(dt)"> 
+              Go on !!
+           </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+</body>
+</html>
+
+<!--<div class="centre">
+    <table class="table table-sm" style="width: 150%"  border-radius="10px" border="solid">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">DataTable</th>
+        <th scope="col">Explore it !!</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dt of (nametable | async)">
+        <td>{{dt}}</td>
+        <td>
+           <button class="mon" (click)="redirect(dt)"> 
+              Go on !!
+           </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div> -->

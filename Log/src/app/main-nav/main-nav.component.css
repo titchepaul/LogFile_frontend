@@ -1,0 +1,44 @@
+.parent {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  }
+  
+.div1 { grid-area: 1 / 1 / 2 / 6; }
+
+.sidenav-container {
+  height: 100%;
+  overflow: hidden;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.child{
+  font-family: 'Lato', sans-serif;
+  font-size:14px;
+  font-weight:bold;
+width:200px;
+height:45px;
+line-height:45px;
+display:inline-block;
+vertical-align:middle;
+/*border:2px solid rgb(24, 99, 197);*/
+border-radius:10px;
+}
+

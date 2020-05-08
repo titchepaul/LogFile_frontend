@@ -1,0 +1,65 @@
+<br>
+<br>
+<!DOCTYPE html>
+<html>
+  <style>
+  .cMonTableauCollapse3 {
+        width:400px;
+    border-collapse: collapse;
+    border: 1px solid #758de5;
+  }
+  .cMonTableauCollapse3 th{
+      text-align: center;
+      /*background-color:#0080ff;*/
+      /*color: white;*/
+    }
+  
+  .cMonTableauCollapse3 th, .cMonTableauCollapse3 td{
+    border: 1px solid #a5b6f1;
+    font-size: x-small;
+    font-weight: normal;
+  }
+      </style>
+
+<!--<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td{
+  padding: 5px;
+  text-align: center;
+}
+</style>
+</head> -->
+<body>
+<div class="parent">
+<div class="div1">
+<h1>{{data}}</h1>
+<!--<input type="text" id="amount" value="1"> -->
+<br>
+<!--<button (click)="dataFilter()" type="submit">search</button> -->
+<table class="cMonTableauCollapse3">
+  <thead class="users">
+    <tr>
+      <th *ngFor="let item of (receive | async)">{{item}}</th>
+    </tr>
+  </thead>
+  <tbody> 
+    <tr *ngFor="let data of (receivevalue | async)">
+        <td *ngFor="let item of (receive | async)">{{data[item]}}</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<br>
+<br>
+</body>
+</html>
+<br>
+<br>
+
+
+
