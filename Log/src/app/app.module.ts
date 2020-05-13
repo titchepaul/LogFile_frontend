@@ -24,8 +24,8 @@ import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 //import { AlertModule } from 'ngx-bootstrap';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent }, // localhost:4200/home
-  {path:'affich', component:AffichComponent},
+  { path: "", component: HomeComponent }, // localhost:4200/home
+  {path:'table/:tableName', component:AffichComponent},
   {path:'filtre',component:FiltreComponent}
 ];
 

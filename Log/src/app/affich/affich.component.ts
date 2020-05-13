@@ -19,6 +19,7 @@ export class AffichComponent implements OnInit {
   private receivevalue: Object[];
   private colInfo: Observable<any>;
   private colInfo2 = [];
+  private counter : number;
   //public share : Observable<any>;
   myForm: FormGroup;
   formgroupobject = {};
@@ -41,12 +42,20 @@ export class AffichComponent implements OnInit {
   data: string;
 
   ngOnInit() {
-    if (this.service.name != null) {
-      localStorage.setItem("val", this.service.name);
-    }
+    //if (this.service.name != null) {
+    //  localStorage.setItem("val", this.service.name);
+    //}
     //this.isValid = true;
-    this.data = localStorage.getItem("val");
+    //this.data = localStorage.getItem("val");
 
+    this.counter = 0;
+    let url = this.router.url;
+    this.data = url.substring(url.lastIndexOf("/")).replace("/","");
+    localStorage.setItem("val",this.data);
+
+    this.service.getTotalRows(this.data).toPromise().then(
+      data => this.counter = data as number
+    );
     this.colInfo = this.service.getInfoColumsTable(localStorage.getItem("val"));
 
         this.service.getInfoColumsTable(localStorage.getItem("val")).toPromise().then(
@@ -76,8 +85,9 @@ export class AffichComponent implements OnInit {
           });
 
 
-    console.log("value :" + this.receivevalue);
+    console.log("value :" + this.counter);
     console.log("receive : " + localStorage.getItem("val"));
+    this.goBack();
 
     /*let subscription = this.colInfo.subscribe((data) => {
       let formgroupobject = {};
@@ -182,6 +192,8 @@ export class AffichComponent implements OnInit {
   goBack(){
     this.service.getValueTable(localStorage.getItem("val")).toPromise().then(
       data => this.receivevalue = data as Object[]
-   );
+    );
+    //this.counter = this.counter - 10;
+    console.log("counter : " + this.counter);  
   }
 }

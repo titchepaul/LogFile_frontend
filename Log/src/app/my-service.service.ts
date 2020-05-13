@@ -20,6 +20,10 @@ export class MyServiceService {
       'https://localhost:44323/api/LogFile/GetData/' + name
     );
   }
+  public getTotalRows(name: string): Observable<number>{
+    console.log("renvoie du nombre total ");
+    return this.http.get<number>('https://localhost:44323/api/LogFile/GetTotalRowsValues/'+name);
+  }
  
   public getAllColumnTable(name: string): Observable<any> {
     console.log("les colonnes ");

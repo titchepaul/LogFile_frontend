@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
   public redirect(val :string) : void{
       this.service.name=val;
       console.log("service value :"+ this.service.name);
-      this.router.navigate(['affich']);
+      this.router.navigate(["table/"+this.service.name]);
   }
 
 }
