@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { MyServiceService } from "../my-service.service";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ForFilterService } from "../for-filter.service";
@@ -19,13 +19,16 @@ export class AffichComponent implements OnInit {
   private receivevalue: Object[];
   private colInfo: Observable<any>;
   private colInfo2 = [];
-  private counter : number;
+  private counter : Object[];
+  private myCounter : number;
+  private flag : number;
   //public share : Observable<any>;
   myForm: FormGroup;
   formgroupobject = {};
 
   private t = new Array();
   private map = new Map();
+  private js_map = new Map();
   private up: string;
   private str_1: string;
   private str_2: string;
@@ -36,7 +39,8 @@ export class AffichComponent implements OnInit {
   constructor(
     private service: MyServiceService,
     private filterService: ForFilterService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {  
   }
   data: string;
@@ -48,27 +52,33 @@ export class AffichComponent implements OnInit {
     //this.isValid = true;
     //this.data = localStorage.getItem("val");
 
-    this.counter = 0;
+    //this.counter = this.service.getNumber;
     let url = this.router.url;
     this.data = url.substring(url.lastIndexOf("/")).replace("/","");
     localStorage.setItem("val",this.data);
-
-    this.service.getTotalRows(this.data).toPromise().then(
+    //console.log("number "+ this.service.getNumber.length);
+    /*this.service.getTotalRows(this.data).toPromise().then(
       data => this.counter = data as number
+    );*/
+    this.service.getTotalRows(localStorage.getItem("val")).toPromise().then(
+      data => this.counter = data as any[]
     );
     this.colInfo = this.service.getInfoColumsTable(localStorage.getItem("val"));
 
         this.service.getInfoColumsTable(localStorage.getItem("val")).toPromise().then(
               data => {this.colInfo2 = data as any[]}
         );
-          this.service.getAllColumnTable(localStorage.getItem("val")).toPromise().then(
+        this.service.getAllColumnTable(localStorage.getItem("val")).toPromise().then(
              data => this.receive = data as Object[]
-          );
-          this.service.getValueTable(localStorage.getItem("val")).toPromise().then(
+        );
+        this.service.getDataInTableByRows(localStorage.getItem("val")).toPromise().then(
+             data => this.receivedata = data as Object[]
+        );
+          /*this.service.getValueTable(localStorage.getItem("val")).toPromise().then(
              data => this.receivevalue = data as Object[]
-          );
+          );*/
 
-          let subscription = this.colInfo.subscribe((data) => {
+        let subscription = this.colInfo.subscribe((data) => {
             let formgroupobject = {};
            //console.log('myData : '+  JSON.stringify(this.colInfo2));
             data.forEach((el) => {
@@ -84,37 +94,64 @@ export class AffichComponent implements OnInit {
             console.log("okkkk");
           });
 
-
+    //this.counter = this.counter - 10;
+    this.flag = 1;
     console.log("value :" + this.counter);
     console.log("receive : " + localStorage.getItem("val"));
-    this.goBack();
+    this.clearFilter();
 
-    /*let subscription = this.colInfo.subscribe((data) => {
-      let formgroupobject = {};
-      data.forEach((el) => {
-        formgroupobject[el.name] = new FormControl("", [Validators.required]);
-        if (el.type === "datetime") {
-          formgroupobject[el.name + "Sign"] = new FormControl("", [
-            Validators.required,
-          ]);
-        }
-      });
-      this.myForm = new FormGroup(formgroupobject);
-      console.log("okkkk");
-    });*/
-    /*let subscription = this.colInfo.toPromise().then(data => {
-      let formgroupobject = {};
-      data.forEach((el) => {
-        formgroupobject[el.name] = new FormControl("", [Validators.required]);
-        if (el.type === "datetime") {
-          formgroupobject[el.name + "Sign"] = new FormControl("", [
-            Validators.required,
-          ]);
-        }
-      });
-      this.myForm = new FormGroup(formgroupobject);
-      console.log("okkkk");
-    });*/
+  }
+  next(){
+    console.log("next "+this.counter);
+    //this.myCounter = this.counter as unknown as number;
+    console.log("count next "+this.myCounter);
+    if(this.flag === 1){
+      this.myCounter = this.counter as unknown as number;
+      this.flag ++;
+      this.myCounter  = this.myCounter -2000;     //x2
+      if(this.myCounter >= 0){
+        //this.myCounter  = this.myCounter -20;
+        this.js_map.set("value",this.myCounter);
+        console.log("next counter " + this.myCounter.toString());
+        this.js_map.forEach((value, key) => {
+          this.service.jsObject[key] = value;
+        });
+        this.service.getDataInTableRowsOnly(localStorage.getItem("val"),this.service.jsObject).toPromise().then(
+          data => this.receivedata = data as Object[]
+        );
+      }else{
+        this.myCounter = 0;
+        this.js_map.set("value",this.myCounter);
+        console.log("next counter " + this.myCounter.toString());
+        this.js_map.forEach((value, key) => {
+          this.service.jsObject[key] = value;
+        });
+        this.service.getDataInTableRowsOnly(localStorage.getItem("val"),this.service.jsObject).toPromise().then(
+          data => this.receivedata = data as Object[]
+        );
+      }
+    }else{
+      this.myCounter = this.myCounter - 1000;
+      if(this.myCounter > 0){
+        //this.myCounter = this.myCounter -10;
+        this.js_map.set("value",this.myCounter);
+        this.js_map.forEach((value, key) => {
+          this.service.jsObject[key] = value;
+        });
+        this.service.getDataInTableRowsOnly(localStorage.getItem("val"),this.service.jsObject).toPromise().then(
+          data => this.receivedata = data as Object[]
+        );
+      }else{
+        this.myCounter = 0;
+        this.js_map.set("value",this.myCounter);
+        this.js_map.forEach((value, key) => {
+          this.service.jsObject[key] = value;
+        });
+        this.service.getDataInTableRowsOnly(localStorage.getItem("val"),this.service.jsObject).toPromise().then(
+          data => this.receivedata = data as Object[]
+        );
+      }
+    }
   }
   dataFilter() {
     /*this.map = new Map();
@@ -183,17 +220,37 @@ export class AffichComponent implements OnInit {
     if(!(Object.keys(this.filterService.jsonObject).length === 0)){
       //this.receivevalue = this.service.getDataFilter(localStorage.getItem("val"),this.filterService.jsonObject);
       this.service.getDataFilter(localStorage.getItem("val"),this.filterService.jsonObject).toPromise().then(
-        data => this.receivevalue = data as Object[]
+        data => this.receivedata = data as Object[]
      );
       console.log("pour le filtre");
-      this.router.navigate(["affich"]);
+      let tableName = this.route.snapshot.params['tableName'];
+      this.router.navigate(["table/"+tableName]);
     }
   }
-  goBack(){
-    this.service.getValueTable(localStorage.getItem("val")).toPromise().then(
-      data => this.receivevalue = data as Object[]
-    );
-    //this.counter = this.counter - 10;
-    console.log("counter : " + this.counter);  
+  clearFilter(){
+        this.service.getDataInTableByRows(localStorage.getItem("val")).toPromise().then(
+          data => this.receivedata = data as Object[]
+        );
+        this.myCounter = this.counter as unknown as number;
+        //this.myCounter = this.myCounter -500;
+        console.log("clear "+this.myCounter); 
+        //this.myForm.dirty; 
+  }
+
+  back(){
+     this.myCounter = this.myCounter + 1000;
+     var offset = this.counter as unknown as number;
+      if(this.myCounter < offset){
+        this.js_map.set("value",this.myCounter);
+        this.js_map.forEach((value, key) => {
+          this.service.jsObject[key] = value;
+        });
+        console.log("back "+this.myCounter);
+        this.service.getDataInTableRowsOnly(localStorage.getItem("val"),this.service.jsObject).toPromise().then(
+          data => this.receivedata = data as Object[]
+        );
+      }else{
+        this.myCounter = this.myCounter-1000;
+      }
   }
 }

@@ -42,9 +42,10 @@ th, td{
 <!--<input type="text" id="amount" value="1"> -->
 <br>
 <!--<button (click)="dataFilter()" type="submit">search</button> -->
-
+  <button (click)="clearFilter()" type="button" class="btn btn-primary btn-space">Clear Filter</button>
   <button (click)="dataFilter()" type="button" class="btn btn-primary btn-space">Search</button>
-  <button (click)="goBack()" type="button" class="btn btn-primary btn-space">Back</button>
+  <button (click)="back()" type="button" class="btn btn-primary btn-space">Previous</button>
+  <button (click)="next()" type="button" class="btn btn-primary btn-space">Next</button>
 
 <br>
 <br>
@@ -71,7 +72,7 @@ th, td{
     </tr>
   </thead>
   <tbody> 
-    <tr *ngFor="let data of receivevalue">
+    <tr *ngFor="let data of receivedata">
         <td *ngFor="let item of receive">{{data[item]}}</td>
     </tr>
   </tbody>

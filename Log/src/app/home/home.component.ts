@@ -23,6 +23,10 @@ export class HomeComponent implements OnInit {
       
   public redirect(val :string) : void{
       this.service.name=val;
+      /*this.service.getTotalRows(val).toPromise().then(
+        data => this.service.getNumber = data as object[]
+      );*/
+           
       console.log("service value :"+ this.service.name);
       this.router.navigate(["table/"+this.service.name]);
   }

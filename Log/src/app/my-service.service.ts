@@ -8,10 +8,11 @@ import { error } from "protractor";
 })
 export class MyServiceService {
   public name: string;
-  //public jsonObject = {};
+  public jsObject = {};
   myObject: {};
   mySecurity = "abcdefg";
   public hurt : any;
+   getNumber : object[];
   constructor(private http: HttpClient) {}
 
   public getData(name: string): Observable<any> {
@@ -20,11 +21,18 @@ export class MyServiceService {
       'https://localhost:44323/api/LogFile/GetData/' + name
     );
   }
-  public getTotalRows(name: string): Observable<number>{
-    console.log("renvoie du nombre total ");
-    return this.http.get<number>('https://localhost:44323/api/LogFile/GetTotalRowsValues/'+name);
+  public getDataInTableByRows(name: string): Observable<any>{
+    console.log("récupération des derniers enregistrement");
+    return this.http.get<any>('https://localhost:44323/api/LogFile/GetDataInTableByRows/'+ name);
   }
- 
+  public getTotalRows(name: string): Observable<any>{
+    console.log("renvoie du nombre total ");
+    return this.http.get<any>('https://localhost:44323/api/LogFile/GetTotalRowsValues/'+name);
+  }
+  public getDataInTableRowsOnly(name: string, object: any): Observable<any>{
+    console.log("next enrégistrement " +name + "  value "+object);
+    return this.http.post<any>('https://localhost:44323/api/LogFile/GetDataInTableByRowsOnly/'+name,object);
+  }
   public getAllColumnTable(name: string): Observable<any> {
     console.log("les colonnes ");
     return this.http.get<any>(
